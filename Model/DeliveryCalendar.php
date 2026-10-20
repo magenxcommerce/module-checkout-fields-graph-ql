@@ -71,6 +71,6 @@ class DeliveryCalendar
      */
     public function isAvailable(string $date, int $storeId): bool
     {
-        return Config::isIsoDate($date) && in_array($date, $this->getAvailableDates($storeId), true);
+        return $this->config->isIsoDate($date) && in_array($date, $this->getAvailableDates($storeId), true);
     }
 }

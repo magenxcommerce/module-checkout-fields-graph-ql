@@ -187,7 +187,7 @@ class Config implements ResetAfterRequestInterface
         $dates = [];
         foreach (preg_split('/[\r\n,]+/', $raw) ?: [] as $line) {
             $line = trim($line);
-            if (self::isIsoDate($line)) {
+            if ($this->isIsoDate($line)) {
                 $dates[$line] = true;
             }
         }
@@ -269,7 +269,7 @@ class Config implements ResetAfterRequestInterface
      * @param string $value
      * @return bool
      */
-    public static function isIsoDate(string $value): bool
+    public function isIsoDate(string $value): bool
     {
         if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $m)) {
             return false;

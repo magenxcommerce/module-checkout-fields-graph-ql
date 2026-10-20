@@ -37,6 +37,7 @@ class SetCheckoutFieldsOnCart implements ResolverInterface
      * @param DeliveryApplicability $applicability
      * @param DeliveryCalendar $calendar
      * @param NoteSanitizer $noteSanitizer
+     * @param DateFormatter $dateFormatter
      */
     public function __construct(
         private readonly GetCartForUser $getCartForUser,
@@ -44,7 +45,8 @@ class SetCheckoutFieldsOnCart implements ResolverInterface
         private readonly Config $config,
         private readonly DeliveryApplicability $applicability,
         private readonly DeliveryCalendar $calendar,
-        private readonly NoteSanitizer $noteSanitizer
+        private readonly NoteSanitizer $noteSanitizer,
+        private readonly DateFormatter $dateFormatter
     ) {
     }
 
@@ -116,7 +118,7 @@ class SetCheckoutFieldsOnCart implements ResolverInterface
     {
         $date = array_key_exists('delivery_date', $input)
             ? trim((string) $input['delivery_date'])
-            : DateFormatter::toIso($cart->getData('magenx_delivery_date'));
+            : $this->dateFormatter->toIso($cart->getData('magenx_delivery_date'));
         $slot = array_key_exists('delivery_slot', $input)
             ? trim((string) $input['delivery_slot'])
             : trim((string) $cart->getData('magenx_delivery_slot'));

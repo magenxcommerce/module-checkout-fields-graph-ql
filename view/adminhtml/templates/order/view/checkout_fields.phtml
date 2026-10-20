@@ -39,7 +39,7 @@ if ($note === '' && $date === '') {
                     <span class="title"><?= $escaper->escapeHtml(__('Order Comment')) ?></span>
                 </div>
                 <div class="admin__page-section-item-content">
-                    <?= nl2br($escaper->escapeHtml($note)) ?>
+                    <?= /* @noEscape */ nl2br($escaper->escapeHtml($note)) ?>
                 </div>
             </div>
         <?php endif; ?>

@@ -30,11 +30,13 @@ class CheckoutFields implements ResolverInterface
      * @param Config $config
      * @param DeliveryApplicability $applicability
      * @param DeliveryCalendar $calendar
+     * @param DateFormatter $dateFormatter
      */
     public function __construct(
         private readonly Config $config,
         private readonly DeliveryApplicability $applicability,
-        private readonly DeliveryCalendar $calendar
+        private readonly DeliveryCalendar $calendar,
+        private readonly DateFormatter $dateFormatter
     ) {
     }
 
@@ -54,7 +56,7 @@ class CheckoutFields implements ResolverInterface
         $selected = $info->getFieldSelection(1);
 
         $note = (string) $quote->getData('magenx_order_note');
-        $date = DateFormatter::toIso($quote->getData('magenx_delivery_date'));
+        $date = $this->dateFormatter->toIso($quote->getData('magenx_delivery_date'));
 
         $options = null;
         if ($offered && isset($selected['delivery_options'])) {

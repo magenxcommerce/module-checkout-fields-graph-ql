@@ -37,12 +37,14 @@ class CopyCheckoutFieldsToOrder implements ObserverInterface
      * @param DeliveryApplicability $applicability
      * @param DeliveryCalendar $calendar
      * @param State $appState
+     * @param DateFormatter $dateFormatter
      */
     public function __construct(
         private readonly Config $config,
         private readonly DeliveryApplicability $applicability,
         private readonly DeliveryCalendar $calendar,
-        private readonly State $appState
+        private readonly State $appState,
+        private readonly DateFormatter $dateFormatter
     ) {
     }
 
@@ -70,7 +72,7 @@ class CopyCheckoutFieldsToOrder implements ObserverInterface
             return;
         }
 
-        $date = DateFormatter::toIso($quote->getData('magenx_delivery_date'));
+        $date = $this->dateFormatter->toIso($quote->getData('magenx_delivery_date'));
         if ($date === '') {
             if ($this->config->isDeliveryDateRequired($storeId) && $this->isGraphQlRequest()) {
                 throw new LocalizedException(__('Please choose a delivery date.'));

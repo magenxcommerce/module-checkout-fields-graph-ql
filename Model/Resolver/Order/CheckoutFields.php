@@ -24,9 +24,11 @@ class CheckoutFields implements ResolverInterface
 {
     /**
      * @param Config $config
+     * @param DateFormatter $dateFormatter
      */
     public function __construct(
-        private readonly Config $config
+        private readonly Config $config,
+        private readonly DateFormatter $dateFormatter
     ) {
     }
 
@@ -42,7 +44,7 @@ class CheckoutFields implements ResolverInterface
         /** @var OrderInterface $order */
         $order = $value['model'];
         $note = (string) $order->getData('magenx_order_note');
-        $date = DateFormatter::toIso($order->getData('magenx_delivery_date'));
+        $date = $this->dateFormatter->toIso($order->getData('magenx_delivery_date'));
         if ($note === '' && $date === '') {
             return null;
         }

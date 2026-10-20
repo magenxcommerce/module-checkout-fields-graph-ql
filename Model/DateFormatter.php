@@ -15,9 +15,11 @@ class DateFormatter
 {
     /**
      * @param TimezoneInterface $timezone
+     * @param Config $config
      */
     public function __construct(
-        private readonly TimezoneInterface $timezone
+        private readonly TimezoneInterface $timezone,
+        private readonly Config $config
     ) {
     }
 
@@ -27,11 +29,11 @@ class DateFormatter
      * @param mixed $value
      * @return string
      */
-    public static function toIso(mixed $value): string
+    public function toIso(mixed $value): string
     {
         $date = substr(trim((string) $value), 0, 10);
 
-        return Config::isIsoDate($date) ? $date : '';
+        return $this->config->isIsoDate($date) ? $date : '';
     }
 
     /**
@@ -44,7 +46,7 @@ class DateFormatter
      */
     public function format(mixed $value): string
     {
-        $iso = self::toIso($value);
+        $iso = $this->toIso($value);
         if ($iso === '') {
             return '';
         }
