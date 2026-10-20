@@ -1,0 +1,31 @@
+/**
+ * Copyright © Magenx. All rights reserved.
+ */
+
+/*
+ * "Comment & Delivery" box on the admin order view. A grid on an inner
+ * wrapper rather than on .admin__page-section-content, whose clearfix
+ * pseudo-elements would become grid items. The gap keeps the requested
+ * delivery and the order comment apart whether they stack or sit side by side.
+ */
+.magenx-checkout-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem 3rem;
+}
+
+.magenx-checkout-fields > .admin__page-section-item {
+    float: none;
+    width: auto;
+    margin: 0;
+}
+
+.magenx-checkout-fields .admin__page-section-item-content {
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+    .magenx-checkout-fields {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
