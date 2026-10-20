@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magenx. All rights reserved.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <!-- The values are carried on the quote and copied onto the placed order
+         (see Observer\CopyCheckoutFieldsToOrder). Only the slot CODE is stored;
+         its label is resolved from config on read, falling back to the code
+         when the slot has since been removed. -->
+    <table name="quote" resource="checkout" engine="innodb">
+        <column xsi:type="text" name="magenx_order_note" nullable="true" comment="Checkout Fields: order comment"/>
+        <column xsi:type="date" name="magenx_delivery_date" nullable="true" comment="Checkout Fields: delivery date"/>
+        <column xsi:type="varchar" name="magenx_delivery_slot" length="32" nullable="true"
+                comment="Checkout Fields: delivery time slot code"/>
+    </table>
+    <table name="sales_order" resource="sales" engine="innodb">
+        <column xsi:type="text" name="magenx_order_note" nullable="true" comment="Checkout Fields: order comment"/>
+        <column xsi:type="date" name="magenx_delivery_date" nullable="true" comment="Checkout Fields: delivery date"/>
+        <column xsi:type="varchar" name="magenx_delivery_slot" length="32" nullable="true"
+                comment="Checkout Fields: delivery time slot code"/>
+    </table>
+    <!-- Mirrored into the order grid (etc/di.xml) so admins can sort and
+         filter upcoming deliveries; indexed for that filter. -->
+    <table name="sales_order_grid" resource="sales" engine="innodb">
+        <column xsi:type="date" name="magenx_delivery_date" nullable="true" comment="Checkout Fields: delivery date"/>
+        <index referenceId="SALES_ORDER_GRID_MAGENX_DELIVERY_DATE" indexType="btree">
+            <column name="magenx_delivery_date"/>
+        </index>
+    </table>
+</schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magenx. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Copy the delivery date into sales_order_grid on every grid refresh
+         (synchronous or async indexing alike). -->
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="magenx_delivery_date" xsi:type="string">sales_order.magenx_delivery_date</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

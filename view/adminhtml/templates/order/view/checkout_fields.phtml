@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright © Magenx. All rights reserved.
+ */
+
+/** @var \Magento\Sales\Block\Adminhtml\Order\AbstractOrder $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magenx\CheckoutFieldsGraphQl\ViewModel\OrderCheckoutFields $viewModel */
+$viewModel = $block->getData('view_model');
+$order = $block->getOrder();
+$note = $viewModel->getOrderNote($order);
+$date = $viewModel->getDeliveryDate($order);
+$slot = $viewModel->getDeliverySlot($order);
+if ($note === '' && $date === '') {
+    return;
+}
+?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $escaper->escapeHtml(__('Comment & Delivery')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <?php if ($date !== ''): ?>
+            <div class="admin__page-section-item">
+                <div class="admin__page-section-item-title">
+                    <span class="title"><?= $escaper->escapeHtml(__('Requested Delivery')) ?></span>
+                </div>
+                <div class="admin__page-section-item-content">
+                    <?= $escaper->escapeHtml($date) ?>
+                    <?php if ($slot !== ''): ?>
+                        <br/><?= $escaper->escapeHtml($slot) ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if ($note !== ''): ?>
+            <div class="admin__page-section-item">
+                <div class="admin__page-section-item-title">
+                    <span class="title"><?= $escaper->escapeHtml(__('Order Comment')) ?></span>
+                </div>
+                <div class="admin__page-section-item-content">
+                    <?= nl2br($escaper->escapeHtml($note)) ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>

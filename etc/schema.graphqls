@@ -1,0 +1,56 @@
+# Copyright © Magenx. All rights reserved.
+
+type Mutation {
+    setCheckoutFieldsOnCart(input: SetCheckoutFieldsOnCartInput!): SetCheckoutFieldsOnCartOutput
+        @resolver(class: "Magenx\\CheckoutFieldsGraphQl\\Model\\Resolver\\SetCheckoutFieldsOnCart")
+        @doc(description: "Set or clear the order comment and the delivery date / time slot on a cart. A field left out of the input is unchanged; a field passed as null or an empty string is cleared.")
+}
+
+input SetCheckoutFieldsOnCartInput @doc(description: "The checkout fields to store on a cart.") {
+    cart_id: String! @doc(description: "The masked cart id.")
+    order_note: String @doc(description: "Free-text order comment. HTML tags are stripped; rejected when longer than `CartCheckoutFields.order_note_max_length`.")
+    delivery_date: String @doc(description: "Requested delivery date as YYYY-MM-DD. Must be one of `DeliveryOptions.available_dates`.")
+    delivery_slot: String @doc(description: "The `code` of one of `DeliveryOptions.slots`. Required together with a date when slots are configured.")
+}
+
+type SetCheckoutFieldsOnCartOutput @doc(description: "The updated cart.") {
+    cart: Cart!
+}
+
+type Cart {
+    checkout_fields: CartCheckoutFields
+        @resolver(class: "Magenx\\CheckoutFieldsGraphQl\\Model\\Resolver\\Cart\\CheckoutFields")
+        @doc(description: "The order comment and delivery date settings and values for this cart.")
+}
+
+type CartCheckoutFields @doc(description: "Order comment and delivery date for a cart.") {
+    order_note_enabled: Boolean! @doc(description: "Whether the order comment box is offered.")
+    order_note_max_length: Int! @doc(description: "Longest order comment accepted, in characters.")
+    order_note: String @doc(description: "The order comment stored on the cart.")
+    delivery_date: String @doc(description: "The requested delivery date stored on the cart (YYYY-MM-DD).")
+    delivery_slot: DeliverySlot @doc(description: "The requested time slot stored on the cart.")
+    delivery_options: DeliveryOptions @doc(description: "The selectable delivery dates and slots. Null when delivery dates are disabled, the cart is virtual, or In-Store Pickup is the selected shipping method.")
+}
+
+type DeliveryOptions @doc(description: "Selectable delivery dates and time slots, computed in the store time zone.") {
+    required: Boolean! @doc(description: "Whether the order cannot be placed without a delivery date.")
+    available_dates: [String!]! @doc(description: "Every selectable date (YYYY-MM-DD), ascending. Lead time, cut-off, excluded weekdays and closed dates are already applied.")
+    slots: [DeliverySlot!]! @doc(description: "Time slots to choose from; empty when the merchant offers none.")
+}
+
+type DeliverySlot @doc(description: "A delivery time window.") {
+    code: String! @doc(description: "Stable identifier, sent back in `SetCheckoutFieldsOnCartInput.delivery_slot`.")
+    label: String! @doc(description: "Shopper-facing label, e.g. \"08:00 – 12:00\".")
+}
+
+type CustomerOrder {
+    checkout_fields: OrderCheckoutFields
+        @resolver(class: "Magenx\\CheckoutFieldsGraphQl\\Model\\Resolver\\Order\\CheckoutFields")
+        @doc(description: "The order comment and requested delivery date recorded on the order, or null when it has neither.")
+}
+
+type OrderCheckoutFields @doc(description: "Order comment and requested delivery date recorded on an order.") {
+    order_note: String @doc(description: "The shopper's order comment.")
+    delivery_date: String @doc(description: "The requested delivery date (YYYY-MM-DD).")
+    delivery_slot: DeliverySlot @doc(description: "The requested time slot.")
+}
