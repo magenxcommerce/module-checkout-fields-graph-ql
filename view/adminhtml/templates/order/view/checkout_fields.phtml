@@ -20,28 +20,30 @@ if ($note === '' && $date === '') {
         <span class="title"><?= $escaper->escapeHtml(__('Comment & Delivery')) ?></span>
     </div>
     <div class="admin__page-section-content">
-        <?php if ($date !== ''): ?>
-            <div class="admin__page-section-item">
-                <div class="admin__page-section-item-title">
-                    <span class="title"><?= $escaper->escapeHtml(__('Requested Delivery')) ?></span>
+        <div class="magenx-checkout-fields">
+            <?php if ($date !== ''): ?>
+                <div class="admin__page-section-item">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?= $escaper->escapeHtml(__('Requested Delivery')) ?></span>
+                    </div>
+                    <div class="admin__page-section-item-content">
+                        <?= $escaper->escapeHtml($date) ?>
+                        <?php if ($slot !== ''): ?>
+                            <br/><?= $escaper->escapeHtml($slot) ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <div class="admin__page-section-item-content">
-                    <?= $escaper->escapeHtml($date) ?>
-                    <?php if ($slot !== ''): ?>
-                        <br/><?= $escaper->escapeHtml($slot) ?>
-                    <?php endif; ?>
+            <?php endif; ?>
+            <?php if ($note !== ''): ?>
+                <div class="admin__page-section-item">
+                    <div class="admin__page-section-item-title">
+                        <span class="title"><?= $escaper->escapeHtml(__('Order Comment')) ?></span>
+                    </div>
+                    <div class="admin__page-section-item-content">
+                        <?= /* @noEscape */ nl2br($escaper->escapeHtml($note)) ?>
+                    </div>
                 </div>
-            </div>
-        <?php endif; ?>
-        <?php if ($note !== ''): ?>
-            <div class="admin__page-section-item">
-                <div class="admin__page-section-item-title">
-                    <span class="title"><?= $escaper->escapeHtml(__('Order Comment')) ?></span>
-                </div>
-                <div class="admin__page-section-item-content">
-                    <?= /* @noEscape */ nl2br($escaper->escapeHtml($note)) ?>
-                </div>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
     </div>
 </section>
