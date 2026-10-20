@@ -1,0 +1,24 @@
+{
+    "quote": {
+        "column": {
+            "magenx_order_note": true,
+            "magenx_delivery_date": true,
+            "magenx_delivery_slot": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "magenx_order_note": true,
+            "magenx_delivery_date": true,
+            "magenx_delivery_slot": true
+        }
+    },
+    "sales_order_grid": {
+        "column": {
+            "magenx_delivery_date": true
+        },
+        "index": {
+            "SALES_ORDER_GRID_MAGENX_DELIVERY_DATE": true
+        }
+    }
+}

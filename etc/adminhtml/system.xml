@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magenx. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenx" translate="label" sortOrder="400">
+            <label>Magenx</label>
+        </tab>
+        <section id="magenx_checkout_fields" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Checkout Fields</label>
+            <tab>magenx</tab>
+            <resource>Magenx_CheckoutFieldsGraphQl::config</resource>
+            <group id="order_note" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Order Comment</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Shows an optional "Order comment" box on the storefront checkout review step. The comment is shown on the admin order view and is available to the order email as {{var magenx_order_note}}.</comment>
+                </field>
+                <field id="max_length" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum Length</label>
+                    <validate>validate-digits validate-greater-than-zero</validate>
+                    <comment>Longest comment accepted, in characters. Longer comments are rejected by the API.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="delivery_date" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Delivery Date</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Lets the shopper pick a delivery date (and a time slot, when slots are configured) after choosing a shipping method. Never offered for In-Store Pickup or for virtual orders.</comment>
+                </field>
+                <field id="required" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Required</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>When Yes, an order cannot be placed without a delivery date. Agent checkouts (UCP / ACP) never send a date, so leave this at No if you sell through AI agents.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="lead_days" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Minimum Lead Time (days)</label>
+                    <validate>validate-digits</validate>
+                    <comment>Earliest selectable date, in days from today (store time zone). 0 allows same-day delivery.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="max_days" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum Days Ahead</label>
+                    <validate>validate-digits validate-greater-than-zero</validate>
+                    <comment>Latest selectable date, in days from today. Capped at 365.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="cutoff_time" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Daily Cut-off Time</label>
+                    <comment>24-hour HH:MM in the store time zone, e.g. 14:00. Orders placed after it push the earliest date back one day. Leave empty for no cut-off.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="excluded_weekdays" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>No Delivery On</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale\Weekdays</source_model>
+                    <can_be_empty>1</can_be_empty>
+                    <comment>Weekdays on which you do not deliver.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="blackout_dates" translate="label comment" type="textarea" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Closed Dates</label>
+                    <comment>Holidays and other dates without delivery, one per line as YYYY-MM-DD. Invalid lines are ignored.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="slots" translate="label comment" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Time Slots</label>
+                    <frontend_model>Magenx\CheckoutFieldsGraphQl\Block\Adminhtml\Form\Field\Slots</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment>Optional delivery windows. When any are configured the shopper must pick one together with the date. "Code" must be unique and stable (e.g. "morning"); "Label" is shown to the shopper (e.g. "08:00 – 12:00").</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

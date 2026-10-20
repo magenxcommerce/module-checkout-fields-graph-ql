@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magenx. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <!-- Both fields are OFF by default: each one adds a control to the
+             storefront checkout, so a merchant opts in deliberately. -->
+        <magenx_checkout_fields>
+            <order_note>
+                <enabled>0</enabled>
+                <max_length>500</max_length>
+            </order_note>
+            <delivery_date>
+                <enabled>0</enabled>
+                <required>0</required>
+                <lead_days>1</lead_days>
+                <max_days>30</max_days>
+                <cutoff_time></cutoff_time>
+                <excluded_weekdays>0</excluded_weekdays>
+                <blackout_dates></blackout_dates>
+                <slots></slots>
+            </delivery_date>
+        </magenx_checkout_fields>
+    </default>
+</config>

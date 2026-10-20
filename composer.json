@@ -1,0 +1,31 @@
+{
+    "name": "magenxcommerce/module-checkout-fields-graph-ql",
+    "description": "Order comment and delivery date / time slot for a headless Magento checkout, exposed over GraphQL: a setCheckoutFieldsOnCart mutation, Cart.checkout_fields with the server-computed delivery calendar, and the values echoed on CustomerOrder, the admin order view, the order grid and the order confirmation email. Hidden for in-store pickup. Leaves the core modules untouched.",
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "php": "~8.3.0||~8.4.0||~8.5.0",
+        "magento/framework": "*",
+        "magento/module-backend": "*",
+        "magento/module-config": "*",
+        "magento/module-quote": "*",
+        "magento/module-quote-graph-ql": "*",
+        "magento/module-sales": "*",
+        "magento/module-sales-graph-ql": "*",
+        "magento/module-store": "*"
+    },
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magenx\\CheckoutFieldsGraphQl\\": ""
+        }
+    }
+}
